@@ -14,6 +14,7 @@ After running into an issue with Python logging not logging to the correct Stack
 | WARNING | 400 |
 | ERROR | 500 |
 | CRITICAL | 600 |
+
 for all severity levels except `ALL`, only logs of that log level or higher will be printed out (ex: Log Level of `WARNING` only prints out `WARNING`, `ERROR`, and `CRITICAL`). If the `ALL` log level is written, it will appear in all cases.
 
 ---
