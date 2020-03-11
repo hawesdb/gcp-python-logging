@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="gcp-python-logging",
-    version="1.0.1",
+    version="1.0.2",
     author="Daniel Hawes",
     author_email="hawesdb@gmail.com",
     description="A python module for the handy printing of logs to StackDriver based on severity",
