@@ -3,6 +3,7 @@ class LoggingClient():
     import google.cloud.logging
     from google.cloud.logging.resource import Resource
     from enum import IntEnum
+    import google.protobuf
 
     logging_client = google.cloud.logging.Client()
     resource = None
@@ -19,7 +20,10 @@ class LoggingClient():
 
         log_name = 'cloudfunctions.googleapis.com%2Fcloud-functions'
         self.logger = self.logging_client.logger(log_name.format(project))
-        self.resource = self.Resource(type="cloud_function", labels={"function_name": function_name, "region": region})
+        self.resource = self.Resource(type="cloud_function", labels={
+            "function_name": function_name,
+            "region": region
+        })
         self.setLogLevel('DEBUG')
 
     def all(self, message):
@@ -41,11 +45,14 @@ class LoggingClient():
         self.createLog(message, 'CRITICAL')
 
     def createLog(self, message, severity=None):
-        if self.checkLevel(severity):
-            if isinstance(message, dict):
-                self.logger.log_struct(message, resource=self.resource, severity=severity)
-            else:
-                self.logger.log_struct({'message': message}, resource=self.resource, severity=severity)
+        try:
+            if self.checkLevel(severity):
+                if isinstance(message, dict):
+                    self.logger.log_struct(message, resource=self.resource, severity=severity)
+                else:
+                    self.logger.log_struct({'message': str(message)}, resource=self.resource, severity=severity)
+        except self.google.protobuf.json_format.ParseError as e:
+            raise self.ParseError('Had trouble parsing the message:\n\n{}\n\ninto a string, please convert it into a string'.format(message))
 
     def setLogLevel(self, level):
         if level in self.Severity.__members__:
@@ -65,4 +72,7 @@ class LoggingClient():
         CRITICAL = 600
 
     class LogLevelError(Exception):
+        pass
+
+    class ParseError(Exception):
         pass
