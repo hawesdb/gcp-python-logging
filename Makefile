@@ -10,4 +10,4 @@ test-upload:
 	python3 -m twine upload --skip-existing --repository-url https://test.pypi.org/legacy/ dist/*
 
 upload:
-	python3 -m twine upload dist/*
+	python3 -m twine upload --skip-existing dist/*

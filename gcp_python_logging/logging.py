@@ -1,9 +1,9 @@
-import os
-import google.cloud.logging
-from google.cloud.logging.resource import Resource
-from enum import IntEnum
-
 class LoggingClient():
+    import os
+    import google.cloud.logging
+    from google.cloud.logging.resource import Resource
+    from enum import IntEnum
+
     logging_client = google.cloud.logging.Client()
     resource = None
     logger = None
@@ -11,15 +11,15 @@ class LoggingClient():
 
     def __init__(self, project=None, function_name=None, region=None):
         if project is None:
-            project = os.environ.get('GCP_PROJECT')
+            project = self.os.environ.get('GCP_PROJECT')
         if function_name is None:
-            function_name = os.environ.get('FUNCTION_NAME')
+            function_name = self.os.environ.get('FUNCTION_NAME')
         if region is None:
-            region = os.environ.get('FUNCTION_REGION')
+            region = self.os.environ.get('FUNCTION_REGION')
 
         log_name = 'cloudfunctions.googleapis.com%2Fcloud-functions'
         self.logger = self.logging_client.logger(log_name.format(project))
-        self.resource = Resource(type="cloud_function", labels={"function_name": function_name, "region": region})
+        self.resource = self.Resource(type="cloud_function", labels={"function_name": function_name, "region": region})
         self.setLogLevel('DEBUG')
 
     def all(self, message):
