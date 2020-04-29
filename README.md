@@ -1,7 +1,7 @@
 # gcp-python-logging
 ## A python module for the handy printing of logs to StackDriver based on severity from within a Google Cloud Function
 
-After running into an issue with Python logging not logging to the correct StackDriver severity filter, I created this helper module in order to facilitate that function. It replicates much of the logging functionality, but translated into StackDriver levels.
+After running into an issue with Python logging not logging to the correct StackDriver severity filter, this helper module was created in order to facilitate that function. It replicates much of the python logging functionality, but translated into StackDriver levels.
 
 ---
 
